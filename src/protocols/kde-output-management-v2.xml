@@ -11,7 +11,7 @@
     SPDX-License-Identifier: MIT-CMU
     ]]></copyright>
 
-<interface name="kde_output_management_v2" version="8">
+<interface name="kde_output_management_v2" version="9">
   <description summary="configuration of server outputs through clients">
     This interface enables clients to set properties of output devices for screen
     configuration purposes via the server. To this end output devices are referenced
@@ -63,7 +63,7 @@
 
 </interface>
 
-<interface name="kde_output_configuration_v2" version="8">
+<interface name="kde_output_configuration_v2" version="9">
   <description summary="configure single output devices">
     outputconfiguration is a client-specific resource that can be used to ask
     the server to apply changes to available output devices.
@@ -286,6 +286,12 @@
     </description>
     <arg name="outputdevice" type="object" interface="kde_output_device_v2" summary="outputdevice this scale change applies to"/>
     <arg name="scale" type="uint" summary="scaling factor in 8.24 fixed point format"/>
+  </request>
+
+  <request name="set_replication_source" since="9">
+    <description summary="set the replication source for this output"/>
+    <arg name="outputdevice" type="object" interface="kde_output_device_v2" summary="outputdevice this scale change applies to"/>
+    <arg name="source" type="object" interface="kde_output_device_v2" allow-null="true"/>
   </request>
 </interface>
 </protocol>

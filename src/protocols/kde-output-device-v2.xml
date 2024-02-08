@@ -11,7 +11,7 @@
     ]]></copyright>
 
 
-  <interface name="kde_output_device_v2" version="7">
+  <interface name="kde_output_device_v2" version="8">
     <description summary="output configuration representation">
       An output device describes a display device available to the compositor.
       output_device is similar to wl_output, but focuses on output
@@ -347,6 +347,11 @@
     <event name="scale_2" since="7">
       <description summary="output scale in higher resolution"/>
       <arg name="factor" type="uint" summary="scaling factor of output in 8.24 fixed point format"/>
+    </event>
+
+    <event name="replication_source" since="8">
+      <description summary="replication source for this output"/>
+      <arg name="source" type="object" interface="kde_output_device_v2" allow-null="true"/>
     </event>
   </interface>
 
