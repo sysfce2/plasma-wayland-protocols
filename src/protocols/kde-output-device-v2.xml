@@ -10,8 +10,49 @@
     SPDX-License-Identifier: MIT-CMU
     ]]></copyright>
 
+  <interface name="kde_output_device_registry_v2" version="21">
+    <description summary="output devices">
+      This interface can be used to list output devices.
 
-  <interface name="kde_output_device_v2" version="20">
+      If this global is bound with a version less than 21, the unsupported_version
+      protocol error will be posted.
+    </description>
+
+    <enum name="error">
+      <description summary="kde_output_device_registry_v2 error values">
+        These errors can be emitted in response to some requests.
+      </description>
+      <entry name="unsupported_version" value="0"
+             summary="the registry was bound with an unsupported version"/>
+    </enum>
+
+    <event name="finished" type="destructor" since="21">
+      <description summary="no new output announcements">
+        This event is sent in response to the stop request. The compositor will
+        immediately destroy the object after sending this event.
+      </description>
+    </event>
+
+    <request name="stop" since="21">
+      <description summary="stop receiving updates">
+        This request indicates that the client no longer wants to receive new
+        output announcements. The compositor will send the
+        kde_output_device_registry_v2.finished event in response to this request.
+        The compositor may still send new output announcements after calling this
+        request until the kde_output_device_registry_v2.finished event is sent.
+      </description>
+    </request>
+
+    <event name="output" since="21">
+      <description summary="new available output">
+        This event is sent when a new output is connected or after binding this
+        global to list all available outputs.
+      </description>
+      <arg name="output" type="new_id" interface="kde_output_device_v2"/>
+    </event>
+  </interface>
+
+  <interface name="kde_output_device_v2" version="21">
     <description summary="output configuration representation">
       An output device describes a display device available to the compositor.
       output_device is similar to wl_output, but focuses on output
@@ -490,6 +531,21 @@
     <event name="auto_brightness" since="20">
       <description summary="whether or not automatic brightness is enabled"/>
       <arg name="enabled" type="uint" summary="1 for enabled, 0 for disabled"/>
+    </event>
+
+    <request name="release" type="destructor" since="21">
+      <description summary="destroy the output device">
+        This notifies the compositor that the client no longer wishes to use
+        the kde_output_device_v2 object.
+      </description>
+    </request>
+
+    <event name="removed" since="21">
+      <description summary="the output has been removed">
+        This event is sent when the output device is disconnected and no new
+        updates will be sent. The client should call the kde_output_device_v2.release
+        request after receiving this event.
+      </description>
     </event>
   </interface>
 
