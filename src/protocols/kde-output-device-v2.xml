@@ -549,7 +549,7 @@
     </event>
   </interface>
 
-  <interface name="kde_output_device_mode_v2" version="20">
+  <interface name="kde_output_device_mode_v2" version="21">
     <description summary="output mode">
       This object describes an output mode.
 
